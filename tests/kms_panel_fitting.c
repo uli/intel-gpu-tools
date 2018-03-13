@@ -243,6 +243,7 @@ static void test_atomic_fastset(igt_display_t *display)
 		igt_set_module_param_int("fastboot", 1);
 
 	igt_require(display->is_atomic);
+	igt_require(is_i915_device(display->drm_fd));
 	igt_require(intel_gen(intel_get_drm_devid(display->drm_fd)) >= 5);
 
 	for_each_pipe_with_valid_output(display, pipe, output) {
