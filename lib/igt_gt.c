@@ -59,14 +59,17 @@ static bool has_gpu_reset(int fd)
 		struct drm_i915_getparam gp;
 		int val = 0;
 
-		memset(&gp, 0, sizeof(gp));
-		gp.param = 35; /* HAS_GPU_RESET */
-		gp.value = &val;
+		if (is_i915_device(fd)) {
+			memset(&gp, 0, sizeof(gp));
+			gp.param = 35; /* HAS_GPU_RESET */
+			gp.value = &val;
 
-		if (ioctl(fd, DRM_IOCTL_I915_GETPARAM, &gp))
-			once = intel_gen(intel_get_drm_devid(fd)) >= 5;
-		else
-			once = val > 0;
+			if (ioctl(fd, DRM_IOCTL_I915_GETPARAM, &gp))
+				once = intel_gen(intel_get_drm_devid(fd)) >= 5;
+			else
+				once = val > 0;
+		} else
+			once = 0;
 	}
 	return once;
 }
