@@ -270,6 +270,7 @@ run_tests_for_pipe(data_t *data, enum pipe pipe)
 		igt_skip_on(pipe >= data->display.n_pipes);
 
 		igt_display_require_output_on_pipe(&data->display, pipe);
+		igt_require(is_i915_device(data->drm_fd));
 	}
 
 	igt_subtest_f("pipe-%s-tiling-none",
