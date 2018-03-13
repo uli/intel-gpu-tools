@@ -262,7 +262,7 @@ bool igt_setup_runtime_pm(void)
 	 * suite goes faster and we have a higher probability of triggering race
 	 * conditions. */
 	fd = open(POWER_DIR "/autosuspend_delay_ms", O_WRONLY);
-	igt_assert_f(fd >= 0,
+	igt_require_f(fd >= 0,
 		     "Can't open " POWER_DIR "/autosuspend_delay_ms\n");
 
 	/* If we fail to write to the file, it means this system doesn't support
