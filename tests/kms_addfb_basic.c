@@ -238,26 +238,26 @@ static void size_tests(int fd)
 	struct drm_mode_fb_cmd2 f_16 = {};
 	struct drm_mode_fb_cmd2 f_8 = {};
 
-	f.width = 1024;
-	f.height = 1024;
+	f.width = 512;
+	f.height = 512;
 	f.pixel_format = DRM_FORMAT_XRGB8888;
-	f.pitches[0] = 1024*4;
+	f.pitches[0] = 512*4;
 
-	f_16.width = 1024;
-	f_16.height = 1024*2;
+	f_16.width = 512;
+	f_16.height = 512*2;
 	f_16.pixel_format = DRM_FORMAT_RGB565;
-	f_16.pitches[0] = 1024*2;
+	f_16.pitches[0] = 512*2;
 
-	f_8.width = 1024*2;
-	f_8.height = 1024*2;
+	f_8.width = 512*2;
+	f_8.height = 512*2;
 	f_8.pixel_format = DRM_FORMAT_C8;
-	f_8.pitches[0] = 1024*2;
+	f_8.pitches[0] = 512*2;
 
 	igt_fixture {
-		gem_bo = igt_create_bo_with_dimensions(fd, 1024, 1024,
+		gem_bo = igt_create_bo_with_dimensions(fd, 512, 512,
 			DRM_FORMAT_XRGB8888, 0, 0, NULL, NULL, NULL);
 		igt_assert(gem_bo);
-		gem_bo_small = igt_create_bo_with_dimensions(fd, 1024, 1023,
+		gem_bo_small = igt_create_bo_with_dimensions(fd, 512, 511,
 			DRM_FORMAT_XRGB8888, 0, 0, NULL, NULL, NULL);
 		igt_assert(gem_bo_small);
 	}
@@ -311,7 +311,7 @@ static void size_tests(int fd)
 	}
 
 	/* Just to check that the parameters would work. */
-	f.height = 1020;
+	f.height = 510;
 	igt_subtest("small-bo") {
 		igt_assert(drmIoctl(fd, DRM_IOCTL_MODE_ADDFB2, &f) == 0);
 		igt_assert(drmIoctl(fd, DRM_IOCTL_MODE_RMFB, &f.fb_id) == 0);
@@ -320,7 +320,7 @@ static void size_tests(int fd)
 
 	igt_subtest("bo-too-small-due-to-tiling") {
 		igt_require(is_i915_device(fd));
-		gem_set_tiling(fd, gem_bo_small, I915_TILING_X, 1024*4);
+		gem_set_tiling(fd, gem_bo_small, I915_TILING_X, 512*4);
 		igt_assert(drmIoctl(fd, DRM_IOCTL_MODE_ADDFB2, &f) == -1 &&
 			   errno == EINVAL);
 	}
